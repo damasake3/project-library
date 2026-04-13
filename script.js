@@ -5,26 +5,67 @@ function Book(title, author, pages, read) {
         throw Error("Use the 'new' operator to call the constructor");
     }
 
+    this.id = crypto.randomUUID();
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.read = read ? "read" : "not read yet";
 }
 
-Book.prototype.info = function() {
+Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages}, ${this.read}`;
 }
 
-const theHobbit = new Book(
-    "The Hobbit",
-    "J.R.R. Tolkien",
-    295,
-    false
-)
+function addBookToLibrary(title, author, pages, read) {
+    let newBook = new Book(
+        title,
+        author,
+        pages,
+        read
+    )
+    console.log(newBook.info());
+    myLibrary.push(newBook);
+    console.log(`Pushed ${title} to MyLibrary`);
+}
 
-console.log(theHobbit.info());
+/* Simulate non-empty Library */
+function putDummyBooks() {
+    addBookToLibrary(
+        "The Hobbit",
+        "J.R.R. Tolkien",
+        295,
+        false);
 
+    addBookToLibrary(
+        "1984",
+        "George Orwell",
+        328,
+        true);
 
-// function addBookToLibrary() {
+    addBookToLibrary(
+        "To Kill a Mockingbird",
+        "Harper Lee",
+        281,
+        false);
 
-// }
+    addBookToLibrary(
+        "The Great Gatsby",
+        "F. Scott Fitzgerald",
+        180,
+        true);
+
+    addBookToLibrary(
+        "Moby Dick",
+        "Herman Melville",
+        635,
+        false);
+
+    addBookToLibrary(
+        "Pride and Prejudice",
+        "Jane Austen",
+        279,
+        true);
+}
+
+putDummyBooks();
+console.table(myLibrary);
