@@ -1,0 +1,19 @@
+body {
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+    text-align: center;
+}
+
+caption {
+    caption-side: bottom;
+    line-height: 3;
+}

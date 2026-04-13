@@ -1,5 +1,8 @@
 const myLibrary = [];
 
+const htmlTable = document.getElementById("library-table");
+const htmlTableBody = document.getElementById("library-table-body");
+
 function Book(title, author, pages, read) {
     if (!new.target) {
         throw Error("Use the 'new' operator to call the constructor");
