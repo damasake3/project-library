@@ -3,6 +3,8 @@ const myLibrary = [];
 const htmlTable = document.getElementById("library-table");
 const htmlTableBody = document.getElementById("library-table-body");
 
+let emptyCell;
+
 function Book(title, author, pages, read) {
     if (!new.target) {
         throw Error("Use the 'new' operator to call the constructor");
@@ -26,7 +28,6 @@ function addBookToLibrary(title, author, pages, read) {
         pages,
         read
     )
-    console.log(newBook.info());
     myLibrary.push(newBook);
     console.log(`Pushed ${title} to MyLibrary`);
 }
@@ -72,3 +73,22 @@ function putDummyBooks() {
 
 putDummyBooks();
 console.table(myLibrary);
+
+function loadBooks(books) {
+    let table = htmlTableBody;
+    let row = table.insertRow(0);
+    let rowNum = 0;
+
+    books.map((book) => {
+        row = table.insertRow(rowNum);
+        row.insertCell(0).innerText = `${book.id}`;
+        row.insertCell(1).innerText = `${book.title}`;
+        row.insertCell(2).innerText = `${book.author}`;
+        row.insertCell(3).innerText = `${book.pages}`;
+        row.insertCell(4).innerText = `${book.read}`;
+        rowNum++;
+    });
+
+}
+
+loadBooks(myLibrary);
