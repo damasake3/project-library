@@ -56,7 +56,6 @@ addBtn.addEventListener("click", (e) => {
     }
     console.log("\n");
 
-
 });
 
 let emptyCell;
@@ -82,7 +81,7 @@ function Book(title, author, pages, read) {
     this.author = author;
     this.pages = pages;
     /*Somehow the read booleans became strings*/
-    this.read = read == "true" ? "read" : "not read yet";
+    this.read = read;
 
 }
 Book.prototype.info = function () {
@@ -154,6 +153,7 @@ function loadBooks(books) {
     clearTableBody();
     books.map((book) => {
         const deleteBtn = document.createElement("button");
+        const readStatus = book.read === "true" ? "read" : "not read yet";
         deleteBtn.setAttribute("type", "button");
         deleteBtn.setAttribute("class", "btn");
         deleteBtn.setAttribute("data-id", book.id);
@@ -166,7 +166,7 @@ function loadBooks(books) {
         row.insertCell(2).innerText = `${book.title}`;
         row.insertCell(3).innerText = `${book.author}`;
         row.insertCell(4).innerText = `${book.pages}`;
-        row.insertCell(5).innerText = `${book.read}`;
+        row.insertCell(5).innerText = `${readStatus}`;
         rowNum++;
     });
 
