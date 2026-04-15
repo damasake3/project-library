@@ -90,14 +90,18 @@ Book.prototype.info = function () {
 }
 
 function addBookToLibrary(title, author, pages, read) {
-    let newBook = new Book(
-        title,
-        author,
-        pages,
-        read
-    )
-    myLibrary.push(newBook);
-    console.log(`Pushed ${title} to MyLibrary`);
+    if (arguments.length === 4) {
+        console.log(`${arguments.length}`);
+        let newBook = new Book(
+            title,
+            author,
+            pages,
+            read
+        )
+        myLibrary.push(newBook);
+        console.log(`Pushed ${title} to MyLibrary`);
+    }
+
 }
 
 /* Simulate non-empty Library */
@@ -167,7 +171,7 @@ function loadBooks(books) {
 
 }
 
-function deleteBookById(id){
+function deleteBookById(id) {
     let bookIndex = myLibrary.findIndex(book => book.id === id);
 
     // This would work with myLibrary as a const
