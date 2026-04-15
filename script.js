@@ -39,6 +39,12 @@ addBtn.addEventListener("click", (e) => {
 
 let emptyCell;
 
+function clearTableBody() {
+    while (htmlTableBody.hasChildNodes()) {
+        htmlTableBody.removeChild(htmlTableBody.firstChild);
+    }
+}
+
 function Book(title, author, pages, read) {
     if (!new.target) {
         throw Error("Use the 'new' operator to call the constructor");
@@ -113,6 +119,7 @@ function loadBooks(books) {
     let row = table.insertRow(0);
     let rowNum = 0;
 
+    clearTableBody();
     books.map((book) => {
         row = table.insertRow(rowNum);
         row.insertCell(0).innerText = `${book.id}`;
