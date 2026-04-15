@@ -3,14 +3,26 @@ const myLibrary = [];
 const htmlTable = document.getElementById("library-table");
 const htmlTableBody = document.getElementById("library-table-body");
 
+// This doesn't work because books haven't loaded yet
+// const htmlTableDeleteBtns = htmlTableBody.querySelectorAll("button");
+
 const addDialog = document.getElementById("add-book");
 const formInputs = addDialog.querySelectorAll("input");
+
 const addBtn = document.getElementById("add-btn");
 
 const clearAllBtn = document.getElementById("clearLibrary");
 
 clearAllBtn.addEventListener("click", (e) => {
     clearLibrary();
+})
+
+htmlTableBody.addEventListener("click", (e) => {
+    let target = e.target;
+    if (target.tagName === "BUTTON") {
+        console.log(`Clicked btn \nid:${target.id}`);
+        deleteBookById(target.id);
+    }
 })
 
 let bookEntry = [];
@@ -71,7 +83,7 @@ function Book(title, author, pages, read) {
     this.pages = pages;
     /*Somehow the read booleans became strings*/
     this.read = read == "true" ? "read" : "not read yet";
-    
+
 }
 Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages}, ${this.read}`;
@@ -137,15 +149,33 @@ function loadBooks(books) {
 
     clearTableBody();
     books.map((book) => {
+        const deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("type", "button");
+        deleteBtn.setAttribute("class", "btn");
+        deleteBtn.innerText = "Delete";
+        deleteBtn.id = book.id;
+
         row = table.insertRow(rowNum);
-        row.insertCell(0).innerText = `${book.id}`;
-        row.insertCell(1).innerText = `${book.title}`;
-        row.insertCell(2).innerText = `${book.author}`;
-        row.insertCell(3).innerText = `${book.pages}`;
-        row.insertCell(4).innerText = `${book.read}`;
+        row.insertCell(0).appendChild(deleteBtn);
+        row.insertCell(1).innerText = `${book.id}`;
+        row.insertCell(2).innerText = `${book.title}`;
+        row.insertCell(3).innerText = `${book.author}`;
+        row.insertCell(4).innerText = `${book.pages}`;
+        row.insertCell(5).innerText = `${book.read}`;
         rowNum++;
     });
 
+}
+
+function deleteBookById(id){
+    let bookIndex = myLibrary.findIndex(book => book.id === id);
+
+    // This would work with myLibrary as a const
+    // changing myLibrary to `let` is just cheating
+    // myLibrary = myLibrary.filter(book => book.id !== id);
+
+    myLibrary.splice(bookIndex, 1);
+    loadBooks(myLibrary);
 }
 
 loadBooks(myLibrary);
