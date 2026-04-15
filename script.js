@@ -7,6 +7,12 @@ const addDialog = document.getElementById("add-book");
 const formInputs = addDialog.querySelectorAll("input");
 const addBtn = document.getElementById("add-btn");
 
+const clearAllBtn = document.getElementById("clearLibrary");
+
+clearAllBtn.addEventListener("click", (e) => {
+    clearLibrary();
+})
+
 let bookEntry = [];
 addBtn.addEventListener("click", (e) => {
     e.preventDefault();
@@ -47,6 +53,11 @@ function clearTableBody() {
     while (htmlTableBody.hasChildNodes()) {
         htmlTableBody.removeChild(htmlTableBody.firstChild);
     }
+}
+
+function clearLibrary() {
+    myLibrary.length = 0;
+    loadBooks(myLibrary);
 }
 
 function Book(title, author, pages, read) {
