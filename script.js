@@ -23,14 +23,18 @@ addBtn.addEventListener("click", (e) => {
     }
 
     if (formInputs[3].checked > formInputs[4].checked) {
+        console.log("Radio True \n");
         bookEntry.push(formInputs[3].value);
         addBookToLibrary(...bookEntry);
         loadBooks(myLibrary);
+        bookEntry = [];
     }
     else if (formInputs[3].checked < formInputs[4].checked) {
+        console.log("Radio False \n");
         bookEntry.push(formInputs[4].value);
         addBookToLibrary(...bookEntry);
         loadBooks(myLibrary);
+        bookEntry = [];
     }
     console.log("\n");
 
@@ -54,9 +58,10 @@ function Book(title, author, pages, read) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = read ? "read" : "not read yet";
+    /*Somehow the read booleans became strings*/
+    this.read = read == "true" ? "read" : "not read yet";
+    
 }
-
 Book.prototype.info = function () {
     return `${this.title} by ${this.author}, ${this.pages}, ${this.read}`;
 }
@@ -78,37 +83,37 @@ function putDummyBooks() {
         "The Hobbit",
         "J.R.R. Tolkien",
         295,
-        false);
+        "false");
 
     addBookToLibrary(
         "1984",
         "George Orwell",
         328,
-        true);
+        "true");
 
     addBookToLibrary(
         "To Kill a Mockingbird",
         "Harper Lee",
         281,
-        false);
+        "false");
 
     addBookToLibrary(
         "The Great Gatsby",
         "F. Scott Fitzgerald",
         180,
-        true);
+        "true");
 
     addBookToLibrary(
         "Moby Dick",
         "Herman Melville",
         635,
-        false);
+        "false");
 
     addBookToLibrary(
         "Pride and Prejudice",
         "Jane Austen",
         279,
-        true);
+        "true");
 }
 
 putDummyBooks();
