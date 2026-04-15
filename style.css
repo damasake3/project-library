@@ -6,7 +6,9 @@ table {
     width: 100%;
 }
 
-table, th, td {
+table,
+th,
+td {
     border: 1px solid black;
     border-collapse: collapse;
     padding: 10px;
@@ -16,4 +18,37 @@ table, th, td {
 caption {
     caption-side: bottom;
     line-height: 3;
+}
+
+button,
+input[type="radio"] {
+    cursor: pointer;
+}
+
+input[type="radio"] {
+    margin: 0px .50em;
+}
+
+button.close-btn {
+    position: absolute;
+    top: 0%;
+    right: 0%;
+
+    border: 1px solid;
+}
+
+button.close-btn:active {
+    background-color: rgb(209, 209, 209);
+}
+
+dialog#add-book {
+    width: 25%;
+}
+
+dialog#add-book p input {
+    width: 100%;
+}
+
+fieldset {
+    margin: 10px 0px;
 }

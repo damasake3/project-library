@@ -3,6 +3,40 @@ const myLibrary = [];
 const htmlTable = document.getElementById("library-table");
 const htmlTableBody = document.getElementById("library-table-body");
 
+const addDialog = document.getElementById("add-book");
+const formInputs = addDialog.querySelectorAll("input");
+const addBtn = document.getElementById("add-btn");
+
+let bookEntry = [];
+addBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    for (let i = 0; i < 3; i++) {
+        console.log(formInputs[i].value);
+        if (formInputs[i].value === "" && i < 3) {
+            console.log("User didn't type in the first 3 entries")
+            console.log(i);
+            break;
+        }
+        else {
+            bookEntry.push(formInputs[i].value);
+        }
+    }
+
+    if (formInputs[3].checked > formInputs[4].checked) {
+        bookEntry.push(formInputs[3].value);
+        addBookToLibrary(...bookEntry);
+        loadBooks(myLibrary);
+    }
+    else if (formInputs[3].checked < formInputs[4].checked) {
+        bookEntry.push(formInputs[4].value);
+        addBookToLibrary(...bookEntry);
+        loadBooks(myLibrary);
+    }
+    console.log("\n");
+
+
+});
+
 let emptyCell;
 
 function Book(title, author, pages, read) {
