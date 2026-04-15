@@ -20,8 +20,8 @@ clearAllBtn.addEventListener("click", (e) => {
 htmlTableBody.addEventListener("click", (e) => {
     let target = e.target;
     if (target.tagName === "BUTTON") {
-        console.log(`Clicked btn \nid:${target.id}`);
-        deleteBookById(target.id);
+        console.log(`Clicked btn \nid:${target.dataset.id}`);
+        deleteBookById(target.dataset.id);
     }
 })
 
@@ -156,8 +156,9 @@ function loadBooks(books) {
         const deleteBtn = document.createElement("button");
         deleteBtn.setAttribute("type", "button");
         deleteBtn.setAttribute("class", "btn");
+        deleteBtn.setAttribute("data-id", book.id);
         deleteBtn.innerText = "Delete";
-        deleteBtn.id = book.id;
+        deleteBtn.classList = "delete-btn";
 
         row = table.insertRow(rowNum);
         row.insertCell(0).appendChild(deleteBtn);
