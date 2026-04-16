@@ -15,15 +15,22 @@ const clearAllBtn = document.getElementById("clearLibrary");
 
 clearAllBtn.addEventListener("click", (e) => {
     clearLibrary();
-})
+});
 
 htmlTableBody.addEventListener("click", (e) => {
     let target = e.target;
-    if (target.tagName === "BUTTON") {
+    if (target.tagName === "BUTTON" && target.classList.contains("delete-btn")) {
         console.log(`Clicked btn \nid:${target.dataset.id}`);
         deleteBookById(target.dataset.id);
     }
-})
+
+    if (target.tagName === "BUTTON" && target.classList.contains("read-btn")) {
+        console.log(`Clicked btn \nId:${target.dataset.id} \nstatus:${target.dataset.status}`);
+        let readStatus = target.dataset.status === "true" ? false : true;
+        console.log(`\n ${readStatus} \n`);
+        updateStatusById(target.dataset.id, readStatus);
+    }
+});
 
 let bookEntry = [];
 addBtn.addEventListener("click", (e) => {
@@ -153,12 +160,18 @@ function loadBooks(books) {
     clearTableBody();
     books.map((book) => {
         const deleteBtn = document.createElement("button");
-        const readStatus = book.read === "true" ? "read" : "not read yet";
         deleteBtn.setAttribute("type", "button");
-        deleteBtn.setAttribute("class", "btn");
         deleteBtn.setAttribute("data-id", book.id);
         deleteBtn.innerText = "Delete";
-        deleteBtn.classList = "delete-btn";
+        deleteBtn.classList.add("delete-btn", "btn");
+        
+        const readBtn = document.createElement("button");
+        readBtn.setAttribute("type", "button");
+        readBtn.setAttribute("class", "btn");
+        readBtn.setAttribute("data-id", book.id);
+        readBtn.setAttribute("data-status", book.read);
+        readBtn.innerText = book.read === "true" ? "read" : "not read yet";
+        readBtn.classList.add("read-btn", "btn");
 
         row = table.insertRow(rowNum);
         row.insertCell(0).appendChild(deleteBtn);
@@ -166,7 +179,7 @@ function loadBooks(books) {
         row.insertCell(2).innerText = `${book.title}`;
         row.insertCell(3).innerText = `${book.author}`;
         row.insertCell(4).innerText = `${book.pages}`;
-        row.insertCell(5).innerText = `${readStatus}`;
+        row.insertCell(5).appendChild(readBtn);
         rowNum++;
     });
 
@@ -180,6 +193,14 @@ function deleteBookById(id) {
     // myLibrary = myLibrary.filter(book => book.id !== id);
 
     myLibrary.splice(bookIndex, 1);
+    loadBooks(myLibrary);
+}
+
+function updateStatusById(id, readStatus) {
+    let bookIndex = myLibrary.findIndex(book => book.id === id);
+
+    myLibrary[bookIndex].read = readStatus.toString();
+    console.log(myLibrary[bookIndex], readStatus);
     loadBooks(myLibrary);
 }
 
