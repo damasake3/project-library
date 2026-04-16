@@ -112,6 +112,7 @@ function loadBooks(books) {
         readBtn.setAttribute("class", "btn");
         readBtn.setAttribute("data-id", book.id);
         readBtn.setAttribute("data-status", book.read);
+        readBtn.setAttribute("title", "Click to Switch Read Status");
         readBtn.innerText = book.read === "true" ? "read" : "not read yet";
         readBtn.classList.add("read-btn", "btn");
 
