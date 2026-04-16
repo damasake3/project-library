@@ -41,6 +41,11 @@ button.close-btn:active {
     background-color: rgb(209, 209, 209);
 }
 
+button.btn.read-btn, button.btn.delete-btn {
+    text-transform: capitalize;
+    min-width: 7em;
+}
+
 dialog#add-book {
     width: 25%;
 }
