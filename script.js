@@ -1,16 +1,9 @@
 const myLibrary = [];
-
 const htmlTable = document.getElementById("library-table");
 const htmlTableBody = document.getElementById("library-table-body");
-
-// This doesn't work because books haven't loaded yet
-// const htmlTableDeleteBtns = htmlTableBody.querySelectorAll("button");
-
 const addDialog = document.getElementById("add-book");
 const formInputs = addDialog.querySelectorAll("input");
-
 const addBtn = document.getElementById("add-btn");
-
 const clearAllBtn = document.getElementById("clearLibrary");
 
 clearAllBtn.addEventListener("click", (e) => {
@@ -20,14 +13,11 @@ clearAllBtn.addEventListener("click", (e) => {
 htmlTableBody.addEventListener("click", (e) => {
     let target = e.target;
     if (target.tagName === "BUTTON" && target.classList.contains("delete-btn")) {
-        console.log(`Clicked btn \nid:${target.dataset.id}`);
         deleteBookById(target.dataset.id);
     }
 
     if (target.tagName === "BUTTON" && target.classList.contains("read-btn")) {
-        console.log(`Clicked btn \nId:${target.dataset.id} \nstatus:${target.dataset.status}`);
         let readStatus = target.dataset.status === "true" ? false : true;
-        console.log(`\n ${readStatus} \n`);
         updateStatusById(target.dataset.id, readStatus);
     }
 });
@@ -38,8 +28,6 @@ addBtn.addEventListener("click", (e) => {
     for (let i = 0; i < 3; i++) {
         console.log(formInputs[i].value);
         if (formInputs[i].value === "" && i < 3) {
-            console.log("User didn't type in the first 3 entries")
-            console.log(i);
             break;
         }
         else {
@@ -48,14 +36,12 @@ addBtn.addEventListener("click", (e) => {
     }
 
     if (formInputs[3].checked > formInputs[4].checked) {
-        console.log("Radio True \n");
         bookEntry.push(formInputs[3].value);
         addBookToLibrary(...bookEntry);
         loadBooks(myLibrary);
         bookEntry = [];
     }
     else if (formInputs[3].checked < formInputs[4].checked) {
-        console.log("Radio False \n");
         bookEntry.push(formInputs[4].value);
         addBookToLibrary(...bookEntry);
         loadBooks(myLibrary);
@@ -64,8 +50,6 @@ addBtn.addEventListener("click", (e) => {
     console.log("\n");
 
 });
-
-let emptyCell;
 
 function clearTableBody() {
     while (htmlTableBody.hasChildNodes()) {
@@ -110,6 +94,51 @@ function addBookToLibrary(title, author, pages, read) {
 
 }
 
+function loadBooks(books) {
+    let table = htmlTableBody;
+    let row = table.insertRow(0);
+    let rowNum = 0;
+
+    clearTableBody();
+    books.map((book) => {
+        const deleteBtn = document.createElement("button");
+        deleteBtn.setAttribute("type", "button");
+        deleteBtn.setAttribute("data-id", book.id);
+        deleteBtn.innerText = "Delete";
+        deleteBtn.classList.add("delete-btn", "btn");
+        
+        const readBtn = document.createElement("button");
+        readBtn.setAttribute("type", "button");
+        readBtn.setAttribute("class", "btn");
+        readBtn.setAttribute("data-id", book.id);
+        readBtn.setAttribute("data-status", book.read);
+        readBtn.innerText = book.read === "true" ? "read" : "not read yet";
+        readBtn.classList.add("read-btn", "btn");
+
+        row = table.insertRow(rowNum);
+        row.insertCell(0).appendChild(deleteBtn);
+        row.insertCell(1).innerText = `${book.id}`;
+        row.insertCell(2).innerText = `${book.title}`;
+        row.insertCell(3).innerText = `${book.author}`;
+        row.insertCell(4).innerText = `${book.pages}`;
+        row.insertCell(5).appendChild(readBtn);
+        rowNum++;
+    });
+
+}
+
+function deleteBookById(id) {
+    let bookIndex = myLibrary.findIndex(book => book.id === id);
+    myLibrary.splice(bookIndex, 1);
+    loadBooks(myLibrary);
+}
+
+function updateStatusById(id, readStatus) {
+    let bookIndex = myLibrary.findIndex(book => book.id === id);
+    myLibrary[bookIndex].read = readStatus.toString();
+    loadBooks(myLibrary);
+}
+
 /* Simulate non-empty Library */
 function putDummyBooks() {
     addBookToLibrary(
@@ -148,60 +177,7 @@ function putDummyBooks() {
         279,
         "true");
 }
-
 putDummyBooks();
 console.table(myLibrary);
-
-function loadBooks(books) {
-    let table = htmlTableBody;
-    let row = table.insertRow(0);
-    let rowNum = 0;
-
-    clearTableBody();
-    books.map((book) => {
-        const deleteBtn = document.createElement("button");
-        deleteBtn.setAttribute("type", "button");
-        deleteBtn.setAttribute("data-id", book.id);
-        deleteBtn.innerText = "Delete";
-        deleteBtn.classList.add("delete-btn", "btn");
-        
-        const readBtn = document.createElement("button");
-        readBtn.setAttribute("type", "button");
-        readBtn.setAttribute("class", "btn");
-        readBtn.setAttribute("data-id", book.id);
-        readBtn.setAttribute("data-status", book.read);
-        readBtn.innerText = book.read === "true" ? "read" : "not read yet";
-        readBtn.classList.add("read-btn", "btn");
-
-        row = table.insertRow(rowNum);
-        row.insertCell(0).appendChild(deleteBtn);
-        row.insertCell(1).innerText = `${book.id}`;
-        row.insertCell(2).innerText = `${book.title}`;
-        row.insertCell(3).innerText = `${book.author}`;
-        row.insertCell(4).innerText = `${book.pages}`;
-        row.insertCell(5).appendChild(readBtn);
-        rowNum++;
-    });
-
-}
-
-function deleteBookById(id) {
-    let bookIndex = myLibrary.findIndex(book => book.id === id);
-
-    // This would work with myLibrary as a const
-    // changing myLibrary to `let` is just cheating
-    // myLibrary = myLibrary.filter(book => book.id !== id);
-
-    myLibrary.splice(bookIndex, 1);
-    loadBooks(myLibrary);
-}
-
-function updateStatusById(id, readStatus) {
-    let bookIndex = myLibrary.findIndex(book => book.id === id);
-
-    myLibrary[bookIndex].read = readStatus.toString();
-    console.log(myLibrary[bookIndex], readStatus);
-    loadBooks(myLibrary);
-}
 
 loadBooks(myLibrary);
