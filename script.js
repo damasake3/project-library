@@ -62,21 +62,14 @@ function clearLibrary() {
     loadBooks(myLibrary);
 }
 
-function Book(title, author, pages, read) {
-    if (!new.target) {
-        throw Error("Use the 'new' operator to call the constructor");
+class Book{
+    id = crypto.randomUUID();
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
     }
-
-    this.id = crypto.randomUUID();
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    /*Somehow the read booleans became strings*/
-    this.read = read;
-
-}
-Book.prototype.info = function () {
-    return `${this.title} by ${this.author}, ${this.pages}, ${this.read}`;
 }
 
 function addBookToLibrary(title, author, pages, read) {
