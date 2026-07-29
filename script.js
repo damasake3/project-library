@@ -5,6 +5,8 @@ const addDialog = document.getElementById("add-book");
 const formInputs = addDialog.querySelectorAll("input");
 const addBtn = document.getElementById("add-btn");
 const clearAllBtn = document.getElementById("clearLibrary");
+const readTrue = document.getElementById("read-true");
+const readFalse = document.getElementById("read-false");
 
 clearAllBtn.addEventListener("click", (e) => {
     clearLibrary();
@@ -40,15 +42,25 @@ addBtn.addEventListener("click", (e) => {
         addBookToLibrary(...bookEntry);
         loadBooks(myLibrary);
         bookEntry = [];
+        closeDialog()
     }
     else if (formInputs[3].checked < formInputs[4].checked) {
         bookEntry.push(formInputs[4].value);
         addBookToLibrary(...bookEntry);
         loadBooks(myLibrary);
         bookEntry = [];
+        closeDialog()
     }
     console.log("\n");
 
+    function closeDialog(){
+        addDialog.close();
+        for (let i = 0; i < formInputs.length; i++) {
+            formInputs[i].value = "";
+        }
+        readTrue.checked = false;
+        readFalse.checked = false;
+    }
 });
 
 function clearTableBody() {
